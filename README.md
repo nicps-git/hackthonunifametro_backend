@@ -87,7 +87,9 @@ Check out a few resources that may come in handy when working with NestJS:
 ## Docker
 
 ENV POSTGRES_USER=meu_usuario
+
 ENV POSTGRES_PASSWORD=minha_senha
+
 ENV POSTGRES_DB=meu_banco
 
 ## Support
