@@ -5,12 +5,14 @@ import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 import { RegisterPacienteDTO } from '../dtos/user/registerPaciente.dto';
 import { customView } from '../responseView/default.view';
 import { GetError } from '@/application/errors';
+import { Public } from '@/infra/modules/access/guards/isPublic';
 
 @Controller('usuario')
 export class UserController {
   constructor(private registerPacienteUseCase: RegisterPacienteUseCase) {}
 
   @Post('paciente')
+  @Public()
   @UsePipes(new ZodValidationPipe(registerPacienteSchema))
   async registerPaciente(@Body() body: RegisterPacienteDTO) {
     try {
