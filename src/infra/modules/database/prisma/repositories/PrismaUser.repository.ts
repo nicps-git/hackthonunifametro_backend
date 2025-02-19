@@ -24,7 +24,7 @@ export class PrismaUserRepositories implements UserRepositories {
       }
 
       const resultCreate = await this.prismaService.pacientes.create({
-        data: paciente,
+        data: { ...paciente, idPerfil: 'f3b2a0f7-5b7c-4d7f-8a1c-2b6b3f1e0b3b' },
       });
 
       return !!resultCreate;
