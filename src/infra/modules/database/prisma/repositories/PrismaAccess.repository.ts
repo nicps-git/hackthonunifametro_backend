@@ -18,6 +18,9 @@ export class PrismaAccessRepositories implements AccessRepositories {
       if (access.user.length === 11) {
         dataUser = await this.prismaService.pacientes.findUnique({
           where: { user: access.user },
+          include: {
+            perfil: true,
+          },
         });
       }
 
@@ -25,6 +28,7 @@ export class PrismaAccessRepositories implements AccessRepositories {
         return {
           user: dataUser.user,
           password: dataUser.password,
+          perfil: dataUser.perfil.nome,
         };
       }
 

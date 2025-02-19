@@ -25,6 +25,7 @@ export class LoginUseCase {
     if (result) {
       const token = await this.encrypterGateway.encrypt({
         user: result.user,
+        perfil: result.perfil,
       });
 
       response.cookie('token', token, {
