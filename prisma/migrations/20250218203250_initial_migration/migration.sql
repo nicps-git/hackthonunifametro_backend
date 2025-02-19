@@ -3,12 +3,12 @@ CREATE TABLE "tbPacientes" (
     "id" VARCHAR(36) NOT NULL,
     "nome" VARCHAR(255) NOT NULL,
     "sobrenome" VARCHAR(255) NOT NULL,
-    "cpf" VARCHAR(5) NOT NULL,
-    "dataNascimento" VARCHAR(10) NOT NULL,
+    "cpf" VARCHAR(11) NOT NULL,
+    "dataNascimento" VARCHAR(5) NOT NULL,
     "sexo" CHAR(1) NOT NULL,
-    "telefone" VARCHAR(15) NOT NULL,
+    "telefone" VARCHAR(11) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
-    "user" VARCHAR(255) NOT NULL,
+    "user" VARCHAR(11) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
     "idEndereco" VARCHAR(36),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -19,7 +19,7 @@ CREATE TABLE "tbPacientes" (
 
 -- CreateTable
 CREATE TABLE "tbEnderecos" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(36) NOT NULL,
     "cep" VARCHAR(8) NOT NULL,
     "logradouro" VARCHAR(255) NOT NULL,
     "numero" VARCHAR(10) NOT NULL,
