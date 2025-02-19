@@ -47,7 +47,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         message: 'Fields entered must be validated',
         status: 422,
         validation: exception.response.details.map((detail) => ({
-          path: detail.path[0],
+          path: detail.path[detail.path.length - 1],
           message: detail.message,
         })),
         error: null,
