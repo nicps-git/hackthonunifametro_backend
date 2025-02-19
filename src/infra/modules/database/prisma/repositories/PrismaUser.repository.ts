@@ -23,8 +23,24 @@ export class PrismaUserRepositories implements UserRepositories {
         });
       }
 
-      const resultCreate = await this.prismaService.pacientes.create({
-        data: { ...paciente, idPerfil: 'f3b2a0f7-5b7c-4d7f-8a1c-2b6b3f1e0b3b' },
+      const resultCreate = await this.prismaService.enderecos.create({
+        data: {
+          ...paciente.endereco,
+          pacientes: {
+            create: {
+              idPerfil: 'f3b2a0f7-5b7c-4d7f-8a1c-2b6b3f1e0b3b',
+              nome: paciente.nome,
+              sobrenome: paciente.sobrenome,
+              cpf: paciente.cpf,
+              dataNascimento: paciente.dataNascimento,
+              sexo: paciente.sexo,
+              telefone: paciente.telefone,
+              email: paciente.email,
+              password: paciente.password,
+              user: paciente.user,
+            },
+          },
+        },
       });
 
       return !!resultCreate;

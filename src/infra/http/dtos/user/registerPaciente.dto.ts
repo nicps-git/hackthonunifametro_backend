@@ -8,6 +8,14 @@ export class RegisterPacienteDTO implements TRegisterPacienteSchema {
   sexo: string;
   telefone: string;
   email: string;
-  user: string;
   password: string;
+  endereco: {
+    cep: string;
+    logradouro: string;
+    numero: string;
+    complemento?: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+  };
 }
