@@ -9,7 +9,7 @@ export const registerPacienteSchema = z.object({
   sexo: validateString,
   telefone: validateString,
   email: validateString,
-  user: validateString,
+  user: validateString.optional(),
   password: validateString,
 });
 

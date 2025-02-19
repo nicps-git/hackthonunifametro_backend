@@ -8,6 +8,5 @@ export class RegisterPacienteDTO implements TRegisterPacienteSchema {
   sexo: string;
   telefone: string;
   email: string;
-  user: string;
   password: string;
 }
