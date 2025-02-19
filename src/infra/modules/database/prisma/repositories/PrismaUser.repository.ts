@@ -29,7 +29,6 @@ export class PrismaUserRepositories implements UserRepositories {
 
       return !!resultCreate;
     } catch (error) {
-      console.log(error);
       throw new GetError({
         title: 'ERRO INTERNO',
         message: 'Erro ao realizar o cadastro do paciente!',

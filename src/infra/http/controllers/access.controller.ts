@@ -13,6 +13,7 @@ import { Response } from 'express';
 import { LoginUseCase } from '@/application/useCases/access/login.usecase';
 import { accessSchema } from '@/application/schemas/access.schema';
 import { LoginDTO } from '../dtos/access/login.dto';
+import { Public } from '@/infra/modules/access/guards/isPublic';
 
 @Controller('login')
 export class AccessControllers {
@@ -20,6 +21,7 @@ export class AccessControllers {
 
   @Post()
   @HttpCode(200)
+  @Public()
   @UsePipes(new ZodValidationPipe(accessSchema))
   async login(@Body() body: LoginDTO, @Res() res: Response) {
     try {
