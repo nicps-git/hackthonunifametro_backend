@@ -1,5 +1,6 @@
 import { GetError } from '@/application/errors';
 import { EncrypterGateway } from '@/application/gateways/encrypter.gatway';
+import { HasherGateway } from '@/application/gateways/hasher.gatway';
 import { AccessRepositories } from '@/application/repositories/access.repository';
 import { TAccessSchema } from '@/application/schemas/access.schema';
 import { Injectable } from '@nestjs/common';
@@ -14,6 +15,7 @@ export class LoginUseCase {
   constructor(
     private accessRepository: AccessRepositories,
     private encrypterGateway: EncrypterGateway,
+    private hasherGateway: HasherGateway,
   ) {}
 
   async execute(
@@ -22,7 +24,10 @@ export class LoginUseCase {
   ): Promise<IResponseLogin> {
     const result = await this.accessRepository.login(request);
 
-    if (result) {
+    if (
+      result &&
+      (await this.hasherGateway.compare(request.password, result.password))
+    ) {
       const token = await this.encrypterGateway.encrypt({
         user: result.user,
         perfil: result.perfil,
