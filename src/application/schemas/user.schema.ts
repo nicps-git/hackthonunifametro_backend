@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { validateString } from './schemaValidateFileds';
+import { validateEmail, validateString } from './schemaValidateFileds';
 
 export const registerPacienteSchema = z.object({
   nome: validateString,
@@ -8,7 +8,7 @@ export const registerPacienteSchema = z.object({
   dataNascimento: validateString,
   sexo: validateString,
   telefone: validateString,
-  email: validateString,
+  email: validateEmail,
   user: validateString.optional(),
   password: validateString,
   endereco: z.object({

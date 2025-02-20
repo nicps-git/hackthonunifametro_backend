@@ -62,3 +62,14 @@ model Perfis {
 
   @@map("tbPerfis")
 }
+
+model ResetPasswordCodes {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  code      String   @db.Char(6)
+  email     String   @db.VarChar(255)
+  disabled  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("tbResetPasswordCodes")
+}

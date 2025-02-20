@@ -45,6 +45,18 @@ CREATE TABLE "tbPerfis" (
     CONSTRAINT "tbPerfis_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "tbResetPasswordCodes" (
+    "id" VARCHAR(36) NOT NULL,
+    "code" CHAR(6) NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    "disabled" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "tbResetPasswordCodes_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "tbPacientes_cpf_key" ON "tbPacientes"("cpf");
 
