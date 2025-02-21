@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pacientes {
+  id             String     @id @default(uuid()) @db.VarChar(36)
+  nome           String     @db.VarChar(255)
+  sobrenome      String     @db.VarChar(255)
+  cpf            String     @unique @db.VarChar(11)
+  dataNascimento String     @db.VarChar(5)
+  sexo           String     @db.Char(1)
+  telefone       String     @db.VarChar(11)
+  email          String     @unique @db.VarChar(255)
+  user           String     @unique @db.VarChar(11)
+  password       String     @db.VarChar(255)
+  idEndereco     String?    @unique @db.VarChar(36)
+  idPerfil       String     @unique @db.VarChar(36)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+  endereco       Enderecos? @relation(fields: [idEndereco], references: [id])
+  perfil         Perfis     @relation(fields: [idPerfil], references: [id])
+
+  @@map("tbPacientes")
+}
+
+model Enderecos {
+  id          String   @id @default(cuid()) @db.VarChar(36)
+  cep         String   @db.VarChar(8)
+  logradouro  String   @db.VarChar(255)
+  numero      String   @db.VarChar(10)
+  complemento String?  @db.VarChar(255)
+  bairro      String   @db.VarChar(255)
+  cidade      String   @db.VarChar(255)
+  estado      String   @db.Char(2)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  pacientes Pacientes?
+
+  @@map("tbEnderecos")
+}
+
+model Perfis {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  nome      String   @db.VarChar(255)
+  descricao String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  pacientes Pacientes?
+
+  @@map("tbPerfis")
+}
+
+model ResetPasswordCodes {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  code      String   @db.Char(6)
+  email     String   @db.VarChar(255)
+  disabled  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("tbResetPasswordCodes")
+}
