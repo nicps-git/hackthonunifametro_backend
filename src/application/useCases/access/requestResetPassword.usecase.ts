@@ -1,4 +1,5 @@
 import { GetError } from '@/application/errors';
+import { EmailGateway } from '@/application/gateways/email.gatway';
 import { AccessRepositories } from '@/application/repositories/access.repository';
 import { TRequestResetPasswordSchema } from '@/application/schemas/access.schema';
 import { generateSixDigitCode } from '@/application/utils';
@@ -6,7 +7,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RequestResetPasswordUseCase {
-  constructor(private accessRepository: AccessRepositories) {}
+  constructor(
+    private accessRepository: AccessRepositories,
+    private emailGateway: EmailGateway,
+  ) {}
 
   async execute(request: TRequestResetPasswordSchema): Promise<boolean> {
     const result = await this.accessRepository.requestResetPassword(
@@ -22,7 +26,11 @@ export class RequestResetPasswordUseCase {
       );
 
       if (resultSaveCode) {
-        // Enviar email com o código de recuperação
+        await this.emailGateway.sendFreeMail({
+          to: request.email,
+          title: 'Solicitação para recuperação de senha!',
+          html: `<h1>Seu código para recuperação de senha é: ${code}</h1>`,
+        });
       }
 
       return true;

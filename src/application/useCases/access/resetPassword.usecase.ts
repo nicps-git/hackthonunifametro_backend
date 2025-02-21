@@ -1,4 +1,5 @@
 import { GetError } from '@/application/errors';
+import { EmailGateway } from '@/application/gateways/email.gatway';
 import { HasherGateway } from '@/application/gateways/hasher.gatway';
 import { AccessRepositories } from '@/application/repositories/access.repository';
 import { TResetPasswordSchema } from '@/application/schemas/access.schema';
@@ -9,6 +10,7 @@ export class ResetPasswordUseCase {
   constructor(
     private accessRepository: AccessRepositories,
     private hasherGateway: HasherGateway,
+    private emailGateway: EmailGateway,
   ) {}
 
   async execute(request: TResetPasswordSchema): Promise<boolean> {
@@ -19,8 +21,12 @@ export class ResetPasswordUseCase {
       request.code,
     );
 
-    if (result) {
-      // Enviar email confirmando a alteração de senha
+    if (result.success) {
+      await this.emailGateway.sendFreeMail({
+        to: result.email,
+        title: 'Recuperação de senha!',
+        html: `<h1>Sua senha foi alterada com sucesso!</h1>`,
+      });
 
       await this.accessRepository.disableCodeResetPassword(request.code);
 
