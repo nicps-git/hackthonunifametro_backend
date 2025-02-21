@@ -1,6 +1,7 @@
 import {
   AccessRepositories,
   IAccessRepository,
+  IResultResetPassword,
 } from '@/application/repositories/access.repository';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
@@ -98,7 +99,10 @@ export class PrismaAccessRepositories implements AccessRepositories {
     }
   }
 
-  async resetPassword(password: string, code: string): Promise<boolean> {
+  async resetPassword(
+    password: string,
+    code: string,
+  ): Promise<IResultResetPassword> {
     try {
       const validateCode = await this.prismaService.resetPasswordCodes.findMany(
         {
@@ -112,14 +116,20 @@ export class PrismaAccessRepositories implements AccessRepositories {
       );
 
       if (validateCode.length === 0) {
-        return false;
+        return {
+          email: '',
+          success: false,
+        };
       }
 
       if (
         validateCode[0].createdAt.getTime() + 86400000 <
         new Date().getTime()
       ) {
-        return false;
+        return {
+          email: '',
+          success: false,
+        };
       }
 
       const updateUserPassword = await this.prismaService.pacientes.update({
@@ -131,7 +141,17 @@ export class PrismaAccessRepositories implements AccessRepositories {
         },
       });
 
-      return !!updateUserPassword;
+      if (!!updateUserPassword) {
+        return {
+          email: validateCode[0].email,
+          success: true,
+        };
+      } else {
+        return {
+          email: '',
+          success: false,
+        };
+      }
     } catch (error) {
       throw new GetError({
         title: 'ERRO INTERNO',

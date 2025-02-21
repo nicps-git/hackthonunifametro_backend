@@ -6,6 +6,11 @@ export interface IAccessRepository {
   perfil: string;
 }
 
+export interface IResultResetPassword {
+  email: string;
+  success: boolean;
+}
+
 export abstract class AccessRepositories {
   abstract login(access: TAccessSchema): Promise<IAccessRepository | undefined>;
 
@@ -13,7 +18,10 @@ export abstract class AccessRepositories {
 
   abstract saveCodeResetPassword(email: string, code: string): Promise<boolean>;
 
-  abstract resetPassword(password: string, code: string): Promise<boolean>;
+  abstract resetPassword(
+    password: string,
+    code: string,
+  ): Promise<IResultResetPassword>;
 
   abstract disableCodeResetPassword(code: string): Promise<void>;
 }

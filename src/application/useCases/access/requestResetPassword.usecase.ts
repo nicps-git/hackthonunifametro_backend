@@ -26,11 +26,10 @@ export class RequestResetPasswordUseCase {
       );
 
       if (resultSaveCode) {
-        await this.emailGateway.sendTemplateMail({
+        await this.emailGateway.sendFreeMail({
           to: request.email,
           title: 'Solicitação para recuperação de senha!',
-          template: 'resetPasswordCode',
-          context: { code },
+          html: `<h1>Seu código para recuperação de senha é: ${code}</h1>`,
         });
       }
 
