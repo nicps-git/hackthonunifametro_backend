@@ -1,4 +1,4 @@
-// import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export interface IGetError {
   title: string;
@@ -26,53 +26,53 @@ export class GetError extends Error {
   }
 }
 
-// export class DefaultErrorResponseDTO {
-//   @ApiProperty({
-//     example: {
-//       title: 'Title error',
-//       message: 'Message error',
-//       status: 400,
-//       validation: null,
-//       error: null,
-//     },
-//   })
-//   error: IGetError;
-// }
+export class DefaultErrorResponseDTO {
+  @ApiProperty({
+    example: {
+      title: 'Title error',
+      message: 'Message error',
+      status: 400,
+      validation: null,
+      error: null,
+    },
+  })
+  error: IGetError;
+}
 
-// export class DefaultErrorValidationResponseDTO {
-//   @ApiProperty({
-//     example: {
-//       title: 'Validation exception',
-//       message: 'Fields entered must be validated',
-//       status: 400,
-//       validation: [
-//         {
-//           path: 'Validate field',
-//           message: 'Validate message to field',
-//         },
-//       ],
-//       error: null,
-//     },
-//   })
-//   error: IGetError;
-// }
+export class DefaultErrorValidationResponseDTO {
+  @ApiProperty({
+    example: {
+      title: 'Validation exception',
+      message: 'Fields entered must be validated',
+      status: 400,
+      validation: [
+        {
+          path: 'Validate field',
+          message: 'Validate message to field',
+        },
+      ],
+      error: null,
+    },
+  })
+  error: IGetError;
+}
 
-// export class DefaultInteranlErrorResponseDTO {
-//   @ApiProperty({
-//     example: {
-//       title: 'Title error',
-//       message: 'Message error',
-//       status: 500,
-//       validation: null,
-//       error: {},
-//     },
-//   })
-//   error: IGetError;
-// }
+export class DefaultInteranlErrorResponseDTO {
+  @ApiProperty({
+    example: {
+      title: 'Title error',
+      message: 'Message error',
+      status: 500,
+      validation: null,
+      error: {},
+    },
+  })
+  error: IGetError;
+}
 
-// export class SuccessResponseDTO {
-//   @ApiProperty({
-//     example: true,
-//   })
-//   data: boolean;
-// }
+export class SuccessResponseDTO {
+  @ApiProperty({
+    example: true,
+  })
+  data: boolean;
+}

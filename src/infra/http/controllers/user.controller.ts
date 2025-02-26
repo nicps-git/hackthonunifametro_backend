@@ -6,7 +6,10 @@ import { RegisterPacienteDTO } from '../dtos/user/registerPaciente.dto';
 import { customView } from '../responseView/default.view';
 import { GetError } from '@/application/errors';
 import { Public } from '@/infra/modules/access/guards/isPublic';
+import { ApiTags } from '@nestjs/swagger';
+import { SwaggerDecorators } from '../decorators/swagger.decorator';
 
+@ApiTags('Usuário')
 @Controller('usuario')
 export class UserController {
   constructor(private registerPacienteUseCase: RegisterPacienteUseCase) {}
@@ -14,6 +17,7 @@ export class UserController {
   @Post('paciente')
   @Public()
   @UsePipes(new ZodValidationPipe(registerPacienteSchema))
+  @SwaggerDecorators(RegisterPacienteDTO, undefined, true)
   async registerPaciente(@Body() body: RegisterPacienteDTO) {
     try {
       const result = await this.registerPacienteUseCase.execute(body);

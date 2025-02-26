@@ -16,13 +16,16 @@ import {
   requestResetPasswordSchema,
   resetPasswordSchema,
 } from '@/application/schemas/access.schema';
-import { LoginDTO } from '../dtos/access/login.dto';
+import { LoginDTO, LoginSuccessResponseDTO } from '../dtos/access/login.dto';
 import { Public } from '@/infra/modules/access/guards/isPublic';
 import { RequestResetPasswordDTO } from '../dtos/access/requestResetPassword.dto';
 import { RequestResetPasswordUseCase } from '@/application/useCases/access/requestResetPassword.usecase';
 import { ResetPasswordDTO } from '../dtos/access/resetPassword.dto';
 import { ResetPasswordUseCase } from '@/application/useCases/access/resetPassword.usecase';
+import { ApiTags } from '@nestjs/swagger';
+import { SwaggerDecorators } from '../decorators/swagger.decorator';
 
+@ApiTags('Login')
 @Controller('login')
 export class AccessControllers {
   constructor(
@@ -35,6 +38,7 @@ export class AccessControllers {
   @HttpCode(200)
   @Public()
   @UsePipes(new ZodValidationPipe(accessSchema))
+  @SwaggerDecorators(LoginDTO, LoginSuccessResponseDTO, true)
   async login(@Body() body: LoginDTO, @Res() res: Response) {
     try {
       const result = await this.loginUseCase.execute(body, res);
@@ -53,6 +57,7 @@ export class AccessControllers {
   @Post('requestResetPassword')
   @Public()
   @UsePipes(new ZodValidationPipe(requestResetPasswordSchema))
+  @SwaggerDecorators(RequestResetPasswordDTO, undefined, true)
   async requestResetPassword(
     @Body() body: RequestResetPasswordDTO,
     @Res() res: Response,
@@ -74,6 +79,7 @@ export class AccessControllers {
   @Post('resetPassword')
   @Public()
   @UsePipes(new ZodValidationPipe(resetPasswordSchema))
+  @SwaggerDecorators(ResetPasswordDTO, undefined, true)
   async resetPassword(@Body() body: ResetPasswordDTO, @Res() res: Response) {
     try {
       const result = await this.resetPasswordUseCase.execute(body);
