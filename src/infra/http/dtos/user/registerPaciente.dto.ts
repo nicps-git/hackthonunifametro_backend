@@ -11,7 +11,7 @@ export class RegisterPacienteDTO implements TRegisterPacienteSchema {
   @ApiProperty({ description: 'User CPF', example: '12345678909' })
   cpf: string;
 
-  @ApiProperty({ description: 'User birth date', example: '1990-01-01' })
+  @ApiProperty({ description: 'User birth date', example: '01-01' })
   dataNascimento: string;
 
   @ApiProperty({ description: 'User genre', example: 'M' })
@@ -29,15 +29,13 @@ export class RegisterPacienteDTO implements TRegisterPacienteSchema {
   @ApiProperty({
     description: 'User address',
     example: {
-      endereco: {
         cep: '12345678',
         logradouro: 'Rua teste',
         numero: '123',
         complemento: 'Casa',
         bairro: 'Bairro teste',
         cidade: 'Cidade teste',
-        estado: 'Estado teste',
-      },
+        estado: 'CE',
     },
   })
   endereco: {
