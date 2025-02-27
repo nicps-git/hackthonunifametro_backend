@@ -3,7 +3,9 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: postgress-uni-clin
+    container_name: postgres-uni-clin
+    ports:
+      - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mysecretpassword
