@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgress-uni-clin
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: meu_banco
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - uni-clin-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: api-uni-clin
+    env_file:
+      - .env
+    ports:
+      - '8081:8081'
+    depends_on:
+      - postgres
+    networks:
+      - uni-clin-network
+
+networks:
+  uni-clin-network:
+    name: uni-clin-network
+
+volumes:
+  postgres_data:

@@ -1,0 +1,28 @@
+## ESTÁGIO 1
+FROM node:18-alpine AS builder
+WORKDIR /usr/src/app
+COPY package*.json ./
+
+RUN npm install --quiet --no-optional --no-fund --loglevel=error
+
+COPY . .
+
+RUN npm run build
+
+### ESTÁGIO 2
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+
+COPY dist ./dist
+COPY package.json .
+COPY .env .
+COPY prisma ./prisma
+
+RUN npm install --quiet --no-optional --no-fund --loglevel=error
+
+ENV NODE_ENV=prod
+
+EXPOSE 8081
+
+CMD ["sh", "-c", "npm run migrate:prisma && node dist/src/main"]
