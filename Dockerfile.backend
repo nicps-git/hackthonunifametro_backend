@@ -1,0 +1,28 @@
+## ESTÁGIO 1: Construção
+FROM node:18-alpine AS builder
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN npm install --quiet --no-optional --no-fund --loglevel=error
+
+RUN npm run build
+
+## ESTÁGIO 2: Execução
+FROM node:18-alpine AS runner
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/prisma ./prisma
+COPY --from=builder /usr/src/app/.env .
+COPY --from=builder /usr/src/app/package.json .
+
+RUN npm install --quiet --no-optional --no-fund --loglevel=error
+
+ENV NODE_ENV=prod
+
+EXPOSE 8081
+
+CMD ["sh", "-c", "npx prisma db push && node dist/prisma/seed.js && node dist/src/main"]
