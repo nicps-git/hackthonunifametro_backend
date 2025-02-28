@@ -23,6 +23,13 @@ export class PrismaAccessRepositories implements AccessRepositories {
             perfil: true,
           },
         });
+      } else if (access.user.length === 6) {
+        dataUser = await this.prismaService.medicos.findUnique({
+          where: { user: access.user },
+          include: {
+            perfil: true,
+          },
+        });
       }
 
       if (dataUser) {
