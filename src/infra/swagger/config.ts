@@ -7,6 +7,7 @@ export const Swagger = (app: INestApplication) => {
     .setDescription('Documentation of the Uni Clin API routes')
     .setVersion('1.0')
     .addTag('Login')
+    .addTag('Médico')
     .addTag('Usuário')
     .addBearerAuth({
       type: 'http',
