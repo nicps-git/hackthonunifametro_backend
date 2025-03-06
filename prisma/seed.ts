@@ -1,10 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { PerfisSeed } from './seeders/Perfis.seed';
+import { MedicoEspecialidadeSeed } from './seeders/MedicoEspecialidade.seed';
 
 const prisma = new PrismaClient();
 
 const main = async () => {
   await PerfisSeed(prisma);
+  await MedicoEspecialidadeSeed(prisma);
 };
 
 main()

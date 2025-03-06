@@ -84,6 +84,7 @@ export class PrismaUserRepositories implements UserRepositories {
               sexo: medico.sexo,
               telefone: medico.telefone,
               email: medico.email,
+              idEspecialidade: medico.idEspecialidade,
               password: medico.password,
               user: medico.user,
             },

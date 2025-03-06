@@ -32,6 +32,7 @@ export interface IMedicoRepository {
   sexo: string;
   telefone: string;
   email: string;
+  idEspecialidade: string;
   user: string;
   password: string;
   endereco: {

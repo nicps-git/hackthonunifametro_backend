@@ -26,6 +26,12 @@ export class RegisterMedicoDTO implements TRegisterMedicoSchema {
   @ApiProperty({ description: 'User email', example: 'jhon.doe@tester.com' })
   email: string;
 
+  @ApiProperty({
+    description: 'User medical specialty',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+  })
+  idEspecialidade: string;
+
   @ApiProperty({ description: 'User password', example: 'tes@1234' })
   password: string;
 

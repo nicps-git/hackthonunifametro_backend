@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { validateEmail, validateString } from './schemaValidateFileds';
+import {
+  validateEmail,
+  validateString,
+  validateUuid,
+} from './schemaValidateFileds';
 
 export const registerPacienteSchema = z.object({
   nome: validateString,
@@ -53,6 +57,7 @@ export const registerMedicoSchema = z.object({
   telefone: validateString,
   email: validateEmail,
   user: validateString.optional(),
+  idEspecialidade: validateUuid,
   password: validateString,
   endereco: z.object({
     cep: validateString.max(8, 'CEP deve conter no máximo 8 caracteres'),
