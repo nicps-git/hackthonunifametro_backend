@@ -1,4 +1,4 @@
-import { Interface } from "readline";
+import { Interface } from 'readline';
 
 export interface IPacienteRepository {
   nome: string;
@@ -9,6 +9,8 @@ export interface IPacienteRepository {
   telefone: string;
   email: string;
   user: string;
+  grauParentesco?: string;
+  nomeResponsavel?: string;
   password: string;
   endereco: {
     cep: string;
@@ -21,7 +23,7 @@ export interface IPacienteRepository {
   };
 }
 
-export interface IMedicoRepository{
+export interface IMedicoRepository {
   nome: string;
   sobrenome: string;
   cnpj: string;
@@ -40,12 +42,11 @@ export interface IMedicoRepository{
     bairro: string;
     cidade: string;
     estado: string;
-  }
+  };
 }
 
 export abstract class UserRepositories {
   abstract registerPaciente(paciente: IPacienteRepository): Promise<boolean>;
-  
-  abstract registerMedico(medico: IMedicoRepository): Promise<boolean>;
 
+  abstract registerMedico(medico: IMedicoRepository): Promise<boolean>;
 }

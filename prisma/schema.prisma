@@ -14,22 +14,24 @@ datasource db {
 }
 
 model Pacientes {
-  id             String     @id @default(uuid()) @db.VarChar(36)
-  nome           String     @db.VarChar(255)
-  sobrenome      String     @db.VarChar(255)
-  cpf            String     @unique @db.VarChar(11)
-  dataNascimento String     @db.VarChar(5)
-  sexo           String     @db.Char(1)
-  telefone       String     @db.VarChar(11)
-  email          String     @unique @db.VarChar(255)
-  user           String     @unique @db.VarChar(11)
-  password       String     @db.VarChar(255)
-  idEndereco     String?    @unique @db.VarChar(36)
-  idPerfil       String     @unique @db.VarChar(36)
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @default(now()) @updatedAt
-  endereco       Enderecos? @relation(fields: [idEndereco], references: [id])
-  perfil         Perfis     @relation(fields: [idPerfil], references: [id])
+  id              String     @id @default(uuid()) @db.VarChar(36)
+  nome            String     @db.VarChar(255)
+  sobrenome       String     @db.VarChar(255)
+  cpf             String     @unique @db.VarChar(11)
+  dataNascimento  String     @db.VarChar(10)
+  sexo            String     @db.Char(1)
+  telefone        String     @db.VarChar(11)
+  email           String     @unique @db.VarChar(255)
+  grauParentesco  String?    @db.VarChar(255)
+  nomeResponsavel String?    @db.VarChar(255)
+  user            String     @unique @db.VarChar(11)
+  password        String     @db.VarChar(255)
+  idEndereco      String?    @unique @db.VarChar(36)
+  idPerfil        String     @unique @db.VarChar(36)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @default(now()) @updatedAt
+  endereco        Enderecos? @relation(fields: [idEndereco], references: [id])
+  perfil          Perfis     @relation(fields: [idPerfil], references: [id])
 
   @@map("tbPacientes")
 }
@@ -47,7 +49,7 @@ model Enderecos {
   updatedAt   DateTime @default(now()) @updatedAt
 
   pacientes Pacientes?
-  medicos Medicos?
+  medicos   Medicos?
 
   @@map("tbEnderecos")
 }
@@ -60,7 +62,7 @@ model Perfis {
   updatedAt DateTime @default(now()) @updatedAt
 
   pacientes Pacientes?
-  medicos Medicos?
+  medicos   Medicos?
 
   @@map("tbPerfis")
 }
@@ -74,16 +76,15 @@ model ResetPasswordCodes {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("tbResetPasswordCodes")
-  
 }
 
-model Medicos{
-  id        String   @id @default(uuid()) @db.VarChar(36)
+model Medicos {
+  id             String     @id @default(uuid()) @db.VarChar(36)
   nome           String     @db.VarChar(255)
   sobrenome      String     @db.VarChar(255)
   cnpj           String     @unique @db.VarChar(14)
   crm            String     @unique @db.VarChar(6)
-  dataNascimento String     @db.VarChar(5)
+  dataNascimento String     @db.VarChar(10)
   sexo           String     @db.Char(1)
   telefone       String     @db.VarChar(11)
   email          String     @unique @db.VarChar(255)

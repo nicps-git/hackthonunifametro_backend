@@ -1,5 +1,5 @@
-import { TRegisterMedicoSchema } from "@/application/schemas/user.schema";
-import { ApiProperty } from "@nestjs/swagger";
+import { TRegisterMedicoSchema } from '@/application/schemas/user.schema';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterMedicoDTO implements TRegisterMedicoSchema {
   @ApiProperty({ description: 'User frist name', example: 'John' })
@@ -14,11 +14,11 @@ export class RegisterMedicoDTO implements TRegisterMedicoSchema {
   @ApiProperty({ description: 'User CRM', example: '123456' })
   crm: string;
 
-  @ApiProperty({ description: 'User birth date', example: '01-01' })
+  @ApiProperty({ description: 'User birth date', example: '1998-01-01' })
   dataNascimento: string;
 
   @ApiProperty({ description: 'User genre', example: 'M' })
-  sexo: string;
+  sexo: 'M' | 'F';
 
   @ApiProperty({ description: 'User phone', example: '12345678909' })
   telefone: string;
@@ -32,13 +32,13 @@ export class RegisterMedicoDTO implements TRegisterMedicoSchema {
   @ApiProperty({
     description: 'User address',
     example: {
-        cep: '12345678',
-        logradouro: 'Rua teste',
-        numero: '123',
-        complemento: 'Casa',
-        bairro: 'Bairro teste',
-        cidade: 'Cidade teste',
-        estado: 'CE',
+      cep: '12345678',
+      logradouro: 'Rua teste',
+      numero: '123',
+      complemento: 'Casa',
+      bairro: 'Bairro teste',
+      cidade: 'Cidade teste',
+      estado: 'CE',
     },
   })
   endereco: {
