@@ -9,6 +9,17 @@ export const idParamsSchema = z
 
 export type TIdParamsSchema = z.infer<typeof idParamsSchema>;
 
+export const dateParamsSchema = z
+  .string({
+    required_error: schemaMessages.requiredFiled,
+  })
+  .regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'Data deve estar no formato YYYY-MM-DD',
+  })
+  .transform((str) => new Date(str));
+
+export type TDateParamsSchema = z.infer<typeof dateParamsSchema>;
+
 export const idObjectParamsSchema = z
   .string({
     message: schemaMessages.requiredIdFiled,
