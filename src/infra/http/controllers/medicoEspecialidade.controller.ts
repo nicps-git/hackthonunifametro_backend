@@ -40,7 +40,7 @@ import { Public } from '@/infra/modules/access/guards/isPublic';
 
 @ApiTags('Especialidade')
 @Controller('especialidade')
-export class MedicoController {
+export class EspecialidadeController {
   constructor(
     private createMedicoEspecialidadeUseCase: CreateMedicoEspecialidadeUseCase,
     private deleteMedicoEspecialidadeUseCase: DeleteMedicoEspecialidadeUseCase,
