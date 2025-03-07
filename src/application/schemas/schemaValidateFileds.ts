@@ -2,6 +2,7 @@ export const schemaMessages = {
   requiredFiled: 'Campo obrigatório!',
   requiredTokenIdUserFiled: 'Identificador do usuário é obrigatório!',
   requiredIdFiled: 'Identificador é obrigatório!',
+  requiredDateField: 'Data é obrigatória!',
   invalidFormatEmail: 'Formato de email inválido!',
   invalidFormatId: 'Formato do identificador inválido!',
   invalidBooleanField: 'Campo deve ser um booleano!',
