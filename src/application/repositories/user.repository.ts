@@ -16,7 +16,7 @@ export interface IPacienteRepository {
     cep: string;
     logradouro: string;
     numero: string;
-    complemento?: string;
+    complemento?: string | null;
     bairro: string;
     cidade: string;
     estado: string;
@@ -39,7 +39,7 @@ export interface IMedicoRepository {
     cep: string;
     logradouro: string;
     numero: string;
-    complemento?: string;
+    complemento?: string | null;
     bairro: string;
     cidade: string;
     estado: string;
