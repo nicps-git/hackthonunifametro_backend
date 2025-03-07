@@ -20,8 +20,8 @@ export const registerPacienteSchema = z.object({
   telefone: validateString,
   email: validateEmail,
   user: validateString.optional(),
-  grauParentesco: validateString.optional(),
-  nomeResponsavel: validateString.optional(),
+  grauParentesco: validateString.optional().nullable(),
+  nomeResponsavel: validateString.optional().nullable(),
   password: validateString,
   endereco: z.object({
     cep: validateString.max(8, 'CEP deve conter no máximo 8 caracteres'),

@@ -9,8 +9,8 @@ export interface IPacienteRepository {
   telefone: string;
   email: string;
   user: string;
-  grauParentesco?: string;
-  nomeResponsavel?: string;
+  grauParentesco?: string | null;
+  nomeResponsavel?: string | null;
   password: string;
   endereco: {
     cep: string;
