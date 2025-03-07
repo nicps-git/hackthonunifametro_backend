@@ -1,4 +1,7 @@
-import { registerMedicoSchema, registerPacienteSchema } from '@/application/schemas/user.schema';
+import {
+  registerMedicoSchema,
+  registerPacienteSchema,
+} from '@/application/schemas/user.schema';
 import { RegisterPacienteUseCase } from '@/application/useCases/user/registerPaciente.usecase';
 import { ZodValidationPipe } from '@/infra/pipes/zodValidation.pipe';
 import { Body, Controller, Post, UsePipes } from '@nestjs/common';
@@ -14,7 +17,10 @@ import { RegisterMedicoDTO } from '../dtos/user/registerMedico.dto';
 @ApiTags('Usuário')
 @Controller('usuario')
 export class UserController {
-  constructor(private registerPacienteUseCase: RegisterPacienteUseCase, private registerMedicoUseCase: RegisterMedicoUseCase) {}
+  constructor(
+    private registerPacienteUseCase: RegisterPacienteUseCase,
+    private registerMedicoUseCase: RegisterMedicoUseCase,
+  ) {}
 
   @Post('paciente')
   @Public()
@@ -39,20 +45,18 @@ export class UserController {
   @Public()
   @UsePipes(new ZodValidationPipe(registerMedicoSchema))
   @SwaggerDecorators(RegisterMedicoDTO, undefined, true)
-  async registerMedico(@Body() body: RegisterMedicoDTO){
-    try{
-
+  async registerMedico(@Body() body: RegisterMedicoDTO) {
+    try {
       const result = await this.registerMedicoUseCase.execute(body);
 
       return customView(result);
-    } catch (error){
+    } catch (error) {
       throw new GetError({
         title: 'ERRO INTERNO',
         message: 'Erro ao cadastrar usuário!',
         error,
         status: 500,
-      })
+      });
     }
   }
-
 }
