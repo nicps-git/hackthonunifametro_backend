@@ -15,12 +15,15 @@ import { customView } from '../responseView/default.view';
 import { GetError } from '@/application/errors';
 import { GetDisponibilidadeMedicoByDataAgendamentoDTO } from '../dtos/medico/getDisponibilidadeMedicoByDataAgendamento.dto';
 import { GetDisponibilidadeMedicoByDataAgendamentoUseCase } from '@/application/useCases/medico/getDisponibilidadeMedicoByDataAgendamento.usecase';
+import { GetMedicoByEspecialidadeDTO } from '../dtos/medico/getMedicoByEspecialidade.dto';
+import { GetMedicoByEspecialidadeUseCase } from '@/application/useCases/medico/getMedicoByEspecialidade.usecase';
 
 @ApiTags('Médico')
 @Controller('medico')
 export class MedicoController {
   constructor(
     private getMedicoByEspecialidadeDateUseCase: GetMedicoByEspecialidadeDateUseCase,
+    private getMedicoByEspecialidadeUseCase: GetMedicoByEspecialidadeUseCase,
     private getDisponibilidadeMedicoByDataAgendamentoUseCase: GetDisponibilidadeMedicoByDataAgendamentoUseCase,
   ) {}
 
@@ -48,6 +51,30 @@ export class MedicoController {
         title: 'ERRO INTERNO',
         message:
           'Erro ao buscar médicos por especialidade e data do agendamento',
+        error,
+        status: 500,
+      });
+    }
+  }
+
+  @Get('byEspecialidade')
+  @Public()
+  @SwaggerGetDecorators(GetMedicoByEspecialidadeDTO)
+  async getMedicoByEspecialidadeUse(
+    @Query('idEspecialidade', new ZodValidationPipe(idParamsSchema))
+    idEspecialidade: TIdParamsSchema,
+  ) {
+    try {
+      const result =
+        await this.getMedicoByEspecialidadeUseCase.execute(idEspecialidade);
+
+      return customView(result);
+    } catch (error) {
+      console.error(error);
+
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao buscar médicos por especialidade',
         error,
         status: 500,
       });

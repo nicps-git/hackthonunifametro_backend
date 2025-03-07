@@ -65,6 +65,49 @@ export class PrismaMedicoRepositories implements MedicoRepositories {
     }
   }
 
+  async getMedicoByEspecialidade(
+    idEspecialidade: string,
+  ): Promise<IMedicoResult[]> {
+    try {
+      const result = await this.prismaService.medicos.findMany({
+        where: {
+          idEspecialidade,
+        },
+        include: {
+          especialidade: true,
+        },
+      });
+
+      return result.map((item) => {
+        return {
+          id: item.id,
+          nome: item.nome,
+          sobrenome: item.sobrenome,
+          crm: item.crm,
+          email: item.email,
+          telefone: item.telefone,
+          cnpj: item.cnpj,
+          dataNascimento: item.dataNascimento,
+          especialidade: item.especialidade?.nome ?? 'Sem especialidade',
+          descricaoEspecialidade:
+            item.especialidade?.descricao ?? 'Sem descrição',
+          sexo: item.sexo,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        };
+      });
+    } catch (error) {
+      console.error(error);
+
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao buscar médicos por especialidade',
+        error,
+        status: 500,
+      });
+    }
+  }
+
   async getDisponibilidadeMedicoByDataAgendamento(
     idMedico: string,
     dataAgendamento: Date,

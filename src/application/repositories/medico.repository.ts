@@ -23,6 +23,10 @@ export abstract class MedicoRepositories {
     weekDay: string,
   ): Promise<IMedicoResult[]>;
 
+  abstract getMedicoByEspecialidade(
+    idEspecialidade: string,
+  ): Promise<IMedicoResult[]>;
+
   abstract getDisponibilidadeMedicoByDataAgendamento(
     idMedico: string,
     dataAgendamento: Date,
