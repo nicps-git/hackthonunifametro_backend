@@ -38,8 +38,8 @@ import {
 } from '../dtos/medicoEspecialidade/getMedicoEspecialidade.dto';
 import { Public } from '@/infra/modules/access/guards/isPublic';
 
-@ApiTags('Médico')
-@Controller('medico')
+@ApiTags('Especialidade')
+@Controller('especialidade')
 export class MedicoController {
   constructor(
     private createMedicoEspecialidadeUseCase: CreateMedicoEspecialidadeUseCase,
@@ -49,7 +49,7 @@ export class MedicoController {
     private findByIdMedicoEspecialidadeUseCase: FindByIdMedicoEspecialidadeUseCase,
   ) {}
 
-  @Post('especialidade')
+  @Post()
   @Public()
   @UsePipes(new ZodValidationPipe(medicoEspecialidadeSchema))
   @SwaggerDecorators(CreateMedicoEspecialidadeDTO)
@@ -68,7 +68,7 @@ export class MedicoController {
     }
   }
 
-  @Delete('especialidade')
+  @Delete()
   @Public()
   @SwaggerDeleteDecorators()
   async deleteMedicoEspecialidade(
@@ -88,7 +88,7 @@ export class MedicoController {
     }
   }
 
-  @Put('especialidade')
+  @Put()
   @Public()
   @UsePipes(new ZodValidationPipe(updateMedicoEspecialidadeSchema))
   @SwaggerDecorators(UpdateMedicoEspecialidadeDTO)
@@ -110,7 +110,7 @@ export class MedicoController {
     }
   }
 
-  @Get('especialidade/list')
+  @Get('all')
   @Public()
   @SwaggerGetDecorators(ListMedicoEspecialidadeDTO)
   async listMedicoEspecialidade() {
@@ -128,7 +128,7 @@ export class MedicoController {
     }
   }
 
-  @Get('especialidade/byId')
+  @Get('byId')
   @Public()
   @SwaggerGetDecorators(FindByIdMedicoEspecialidadeDTO)
   async findByIdMedicoEspecialidade(
