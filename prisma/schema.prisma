@@ -34,6 +34,8 @@ model Pacientes {
   endereco Enderecos? @relation(fields: [idEndereco], references: [id])
   perfil   Perfis     @relation(fields: [idPerfil], references: [id])
 
+  Agendamento Agendamento[]
+
   @@map("tbPacientes")
 }
 
@@ -102,6 +104,7 @@ model Medicos {
   especialidade MedicoEspecialidade? @relation(fields: [idEspecialidade], references: [id])
 
   disponibilidade MedicoDisponibilidade[]
+  Agendamento     Agendamento[]
 
   @@map("tbMedicos")
 }
@@ -129,4 +132,34 @@ model MedicoDisponibilidade {
   medicos Medicos @relation(fields: [idMedico], references: [id])
 
   @@map("tbMedicoDisponibilidade")
+}
+
+model Agendamento {
+  id                  String   @id @default(uuid()) @db.VarChar(36)
+  idPaciente          String   @db.VarChar(36)
+  idMedico            String   @db.VarChar(36)
+  data                DateTime
+  horario             String   @db.VarChar(8)
+  statusAgendamentoId String   @db.VarChar(36)
+  observacao          String?  @db.VarChar(255)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now()) @updatedAt
+
+  paciente          Pacientes          @relation(fields: [idPaciente], references: [id])
+  medico            Medicos            @relation(fields: [idMedico], references: [id])
+  StatusAgendamento StatusAgendamento? @relation(fields: [statusAgendamentoId], references: [id])
+
+  @@map("tbAgendamento")
+}
+
+model StatusAgendamento {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  nome      String   @db.VarChar(255)
+  descricao String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  Agendamento Agendamento[]
+
+  @@map("tbStatusAgendamento")
 }

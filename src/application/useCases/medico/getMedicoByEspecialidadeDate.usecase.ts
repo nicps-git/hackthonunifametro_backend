@@ -3,18 +3,12 @@ import {
   IMedicoResult,
   MedicoRepositories,
 } from '@/application/repositories/medico.repository';
+import { getWeekDay } from '@/application/utils';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GetMedicoByEspecialidadeDateUseCase {
   constructor(private medicoRepositories: MedicoRepositories) {}
-
-  protected getWeekDay(date: Date): string {
-    const daysOfWeek = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM'];
-    const dayIndex = date.getDay();
-
-    return daysOfWeek[dayIndex];
-  }
 
   async execute(
     idEspecialidade: string,
@@ -39,7 +33,7 @@ export class GetMedicoByEspecialidadeDateUseCase {
       });
     }
 
-    const weekDay = this.getWeekDay(agendamentoDate);
+    const weekDay = getWeekDay(agendamentoDate);
 
     const result = await this.medicoRepositories.getMedicoByEspecialidadeDate(
       idEspecialidade,

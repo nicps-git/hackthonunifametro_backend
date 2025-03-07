@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class GetMedicoByEspecialidadeDateDTO {
+export class GetMedicoByEspecialidadeDTO {
   @ApiProperty({
     example: {
       id: 'ce511924-6652-4935-aa08-4e05eb036588',

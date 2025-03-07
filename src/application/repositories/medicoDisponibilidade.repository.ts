@@ -2,8 +2,11 @@ import { TMedicoDisponibilidadeSchema } from '../schemas/medicoDisponibilidade.s
 
 export interface IResultMedicoDisponibilidadeRepository {
   id: string;
+  idMedico: string;
   diaSemana: string;
   horario: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export abstract class MedicoDisponibilidadeRepositories {
