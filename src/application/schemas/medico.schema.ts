@@ -11,3 +11,14 @@ export const getMedicoByEspecialidadeDateSchema = z.object({
 export type TGetMedicoByEspecialidadeDateSchema = z.infer<
   typeof getMedicoByEspecialidadeDateSchema
 >;
+
+export const getDisponibilidadeMedicoByDataAgendamentoSchema = z.object({
+  idMedico: validateUuid,
+  dataAgendamento: z.date({
+    message: 'Data inválida',
+  }),
+});
+
+export type TGetDisponibilidadeMedicoByDataAgendamentoSchema = z.infer<
+  typeof getDisponibilidadeMedicoByDataAgendamentoSchema
+>;

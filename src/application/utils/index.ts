@@ -7,3 +7,10 @@ export const generateSixDigitCode = (): string => {
 
   return code;
 };
+
+export const getWeekDay = (date: Date): string => {
+  const daysOfWeek = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM'];
+  const dayIndex = date.getDay();
+
+  return daysOfWeek[dayIndex];
+};
