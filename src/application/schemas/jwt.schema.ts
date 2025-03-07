@@ -1,12 +1,9 @@
 import { z } from 'zod';
-import {
-  validateUserPermissions,
-  validateUuidToken,
-} from './schemaValidateFileds';
+import { validateString, validateUuidToken } from './schemaValidateFileds';
 
 export const tokenSchema = z.object({
-  idUser: validateUuidToken,
-  permissions: validateUserPermissions,
+  user: validateUuidToken,
+  perfil: validateString,
 });
 
 export type TTokenSchema = z.infer<typeof tokenSchema>;

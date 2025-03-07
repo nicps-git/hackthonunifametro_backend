@@ -44,10 +44,12 @@ export class JwtGuard extends AuthGuard('jwt') {
         throw new GetError({
           title: 'Acesso negado!',
           message: 'Você não possui permissões para realizar esta ação!',
+          error: info,
           status: 401,
         });
       }
     }
+
     return data;
   }
 }

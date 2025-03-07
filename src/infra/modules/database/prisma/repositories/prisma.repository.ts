@@ -3,6 +3,10 @@ import { AccessRepositories } from '@/application/repositories/access.repository
 import { PrismaAccessRepositories } from './PrismaAccess.repository';
 import { UserRepositories } from '@/application/repositories/user.repository';
 import { PrismaUserRepositories } from './PrismaUser.repository';
+import { MedicoEspecialidadeRepositories } from '@/application/repositories/medicoEspecialidade.repository';
+import { PrismaMedicoEspecialidadeRepositories } from './PrismaMedicoEspecialidade.repository';
+import { MedicoDisponibilidadeRepositories } from '@/application/repositories/medicoDisponibilidade.repository';
+import { PrismaMedicoDisponibilidadeRepositories } from './PrismaMedicoDisponibilidade.repository';
 
 export const PrismaRepositories: IRepositories[] = [
   {
@@ -12,5 +16,13 @@ export const PrismaRepositories: IRepositories[] = [
   {
     provide: UserRepositories,
     useClass: PrismaUserRepositories,
+  },
+  {
+    provide: MedicoEspecialidadeRepositories,
+    useClass: PrismaMedicoEspecialidadeRepositories,
+  },
+  {
+    provide: MedicoDisponibilidadeRepositories,
+    useClass: PrismaMedicoDisponibilidadeRepositories,
   },
 ];
