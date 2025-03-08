@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service';
 import { GetError } from '@/application/errors';
 import {
   AgendamentoRepositories,
+  TResultListAgendamentosMedico,
   TResultListAgendamentosPaciente,
 } from '@/application/repositories/agendamento.repository';
 import { TRealizarAgendamentoSchema } from '@/application/schemas/agendamento.schema';
@@ -137,6 +138,70 @@ export class PrismaAgendamentoRepositories implements AgendamentoRepositories {
       throw new GetError({
         title: 'ERRO INTERNO',
         message: 'Erro ao listar os agendamentos do paciente!',
+        error,
+        status: 500,
+      });
+    }
+  }
+
+  async listarAgendamentosMedico(
+    idMedico: string,
+  ): Promise<TResultListAgendamentosMedico[]> {
+    try {
+      const medicoExists = await this.prismaService.medicos.findFirst({
+        where: {
+          id: idMedico,
+        },
+      });
+
+      if (!medicoExists) {
+        throw new GetError({
+          title: 'Ação negada',
+          message: 'Médico não encontrado!',
+        });
+      }
+
+      const result = await this.prismaService.agendamento.findMany({
+        where: {
+          idMedico,
+          data: new Date(),
+        },
+        include: {
+          paciente: true,
+          StatusAgendamento: true,
+          Consultas: true,
+        },
+      });
+
+      return result.map((item) => ({
+        id: item.id,
+        data: item.data,
+        horario: item.horario,
+        idMedico: item.idMedico,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+        observacao: item.observacao,
+        status: item.StatusAgendamento?.nome ?? 'Sem status',
+        paciente: {
+          cpf: item.paciente.cpf,
+          dataNascimento: item.paciente.dataNascimento,
+          nome: item.paciente.nome,
+          sobrenome: item.paciente.sobrenome,
+        },
+        consultas:
+          item.Consultas?.map((consulta) => ({
+            laudoMedico: consulta.laudoMedico,
+            prescricaoMedica: consulta.prescricaoMedica,
+            afastamento: consulta.afastamento,
+            retorno: consulta.retorno,
+          })) ?? [],
+      }));
+    } catch (error) {
+      console.error(error);
+
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao listar os agendamentos do médico!',
         error,
         status: 500,
       });

@@ -22,6 +22,8 @@ import {
   TIdParamsSchema,
 } from '@/application/schemas/default.schemas';
 import { ListarAgendamentosPacienteUseCase } from '@/application/useCases/agendamento/listarAgendamentosPaciente.usecase';
+import { ListarAgendamentosMedicoDTO } from '../dtos/agendamento/listarAgendamentosMedico.dto';
+import { ListarAgendamentosMedicoUseCase } from '@/application/useCases/agendamento/listarAgendamentosMedico.usecase';
 
 @ApiTags('Agendamento')
 @Controller('agendamento')
@@ -30,6 +32,7 @@ export class AgendamentoController {
     private realizarAgendamentoUseCase: RealizarAgendamentoUseCase,
     private cancelarAgendamentoUseCase: CancelarAgendamentoUseCase,
     private listarAgendamentosPacienteUseCase: ListarAgendamentosPacienteUseCase,
+    private listarAgendamentosMedicoUseCase: ListarAgendamentosMedicoUseCase,
   ) {}
 
   @Post()
@@ -88,7 +91,29 @@ export class AgendamentoController {
     } catch (error) {
       throw new GetError({
         title: 'ERRO INTERNO',
-        message: 'Erro ao listar as disponibilidades do médico!',
+        message: 'Erro ao listar os agendamentos do paciente!',
+        error,
+        status: 500,
+      });
+    }
+  }
+
+  @Get('medico')
+  @Public()
+  @SwaggerGetDecorators(ListarAgendamentosMedicoDTO)
+  async listarAgendamentosMedico(
+    @Query('idMedico', new ZodValidationPipe(idParamsSchema))
+    idMedico: TIdParamsSchema,
+  ) {
+    try {
+      const result =
+        await this.listarAgendamentosMedicoUseCase.execute(idMedico);
+
+      return customView(result);
+    } catch (error) {
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao listar os agendamentos do médico!',
         error,
         status: 500,
       });

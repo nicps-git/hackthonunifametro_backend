@@ -23,7 +23,7 @@ export class PrismaMedicoRepositories implements MedicoRepositories {
       today.setHours(today.getHours() - 3);
 
       const maxDate = new Date();
-      maxDate.setMonth(maxDate.getMonth() + 2);
+      maxDate.setMonth(maxDate.getMonth() + 1);
       maxDate.setHours(0, 0, 0, 0);
       maxDate.setHours(maxDate.getHours() - 3);
 
