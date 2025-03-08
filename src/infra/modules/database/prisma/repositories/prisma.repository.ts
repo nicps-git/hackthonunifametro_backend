@@ -9,6 +9,8 @@ import { MedicoDisponibilidadeRepositories } from '@/application/repositories/me
 import { PrismaMedicoDisponibilidadeRepositories } from './PrismaMedicoDisponibilidade.repository';
 import { MedicoRepositories } from '@/application/repositories/medico.repository';
 import { PrismaMedicoRepositories } from './PrismaMedico.repository';
+import { AgendamentoRepositories } from '@/application/repositories/agendamento.repository';
+import { PrismaAgendamentoRepositories } from './PrismaAgendamento.repository';
 
 export const PrismaRepositories: IRepositories[] = [
   {
@@ -30,5 +32,9 @@ export const PrismaRepositories: IRepositories[] = [
   {
     provide: MedicoRepositories,
     useClass: PrismaMedicoRepositories,
+  },
+  {
+    provide: AgendamentoRepositories,
+    useClass: PrismaAgendamentoRepositories,
   },
 ];

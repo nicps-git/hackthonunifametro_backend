@@ -140,14 +140,14 @@ model Agendamento {
   idMedico            String   @db.VarChar(36)
   data                DateTime
   horario             String   @db.VarChar(8)
-  statusAgendamentoId String   @db.VarChar(36)
+  idStatusAgendamento String   @db.VarChar(36)
   observacao          String?  @db.VarChar(255)
   createdAt           DateTime @default(now())
   updatedAt           DateTime @default(now()) @updatedAt
 
   paciente          Pacientes          @relation(fields: [idPaciente], references: [id])
   medico            Medicos            @relation(fields: [idMedico], references: [id])
-  StatusAgendamento StatusAgendamento? @relation(fields: [statusAgendamentoId], references: [id])
+  StatusAgendamento StatusAgendamento? @relation(fields: [idStatusAgendamento], references: [id])
 
   @@map("tbAgendamento")
 }
