@@ -43,4 +43,6 @@ export abstract class MedicoRepositories {
     idMedico: string,
     dataAgendamento: Date,
   ): Promise<IResultMedicoDisponibilidadeRepository[]>;
+
+  abstract listagemMedicos(): Promise<IMedicoResult[]>;
 }

@@ -4,6 +4,7 @@ import { ConsultaRepositories } from './consulta.repository';
 import { MedicoRepositories } from './medico.repository';
 import { MedicoDisponibilidadeRepositories } from './medicoDisponibilidade.repository';
 import { MedicoEspecialidadeRepositories } from './medicoEspecialidade.repository';
+import { PacienteRepositories } from './paciente.repository';
 import { UserRepositories } from './user.repository';
 
 export const DatabaseRepositoriesModule = [
@@ -14,4 +15,5 @@ export const DatabaseRepositoriesModule = [
   MedicoRepositories,
   AgendamentoRepositories,
   ConsultaRepositories,
+  PacienteRepositories,
 ];
