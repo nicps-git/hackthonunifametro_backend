@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { validateString, validateUuidToken } from './schemaValidateFileds';
 
 export const tokenSchema = z.object({
+  idPaciente: validateUuidToken,
   user: validateUuidToken,
   perfil: validateString,
 });

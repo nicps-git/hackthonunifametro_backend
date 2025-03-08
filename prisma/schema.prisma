@@ -149,6 +149,8 @@ model Agendamento {
   medico            Medicos            @relation(fields: [idMedico], references: [id])
   StatusAgendamento StatusAgendamento? @relation(fields: [idStatusAgendamento], references: [id])
 
+  Consultas Consultas[]
+
   @@map("tbAgendamento")
 }
 
@@ -162,4 +164,19 @@ model StatusAgendamento {
   Agendamento Agendamento[]
 
   @@map("tbStatusAgendamento")
+}
+
+model Consultas {
+  id               String    @id @default(uuid()) @db.VarChar(36)
+  idAgendamento    String    @db.VarChar(36)
+  laudoMedico      String    @db.VarChar(255)
+  prescricaoMedica String    @db.VarChar(255)
+  afastamento      DateTime?
+  retorno          DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @default(now()) @updatedAt
+
+  agendamento Agendamento @relation(fields: [idAgendamento], references: [id])
+
+  @@map("tbConsultas")
 }
