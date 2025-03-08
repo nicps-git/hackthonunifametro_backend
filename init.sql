@@ -104,6 +104,46 @@ CREATE TABLE "tbMedicoDisponibilidade" (
     CONSTRAINT "tbMedicoDisponibilidade_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "tbAgendamento" (
+    "id" VARCHAR(36) NOT NULL,
+    "idPaciente" VARCHAR(36) NOT NULL,
+    "idMedico" VARCHAR(36) NOT NULL,
+    "data" TIMESTAMP(3) NOT NULL,
+    "horario" VARCHAR(8) NOT NULL,
+    "idStatusAgendamento" VARCHAR(36) NOT NULL,
+    "observacao" VARCHAR(255),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "tbAgendamento_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "tbStatusAgendamento" (
+    "id" VARCHAR(36) NOT NULL,
+    "nome" VARCHAR(255) NOT NULL,
+    "descricao" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "tbStatusAgendamento_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "tbConsultas" (
+    "id" VARCHAR(36) NOT NULL,
+    "idAgendamento" VARCHAR(36) NOT NULL,
+    "laudoMedico" VARCHAR(255) NOT NULL,
+    "prescricaoMedica" VARCHAR(255) NOT NULL,
+    "afastamento" TIMESTAMP(3),
+    "retorno" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "tbConsultas_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "tbPacientes_cpf_key" ON "tbPacientes"("cpf");
 
@@ -115,9 +155,6 @@ CREATE UNIQUE INDEX "tbPacientes_user_key" ON "tbPacientes"("user");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tbPacientes_idEndereco_key" ON "tbPacientes"("idEndereco");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tbPacientes_idPerfil_key" ON "tbPacientes"("idPerfil");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tbMedicos_cnpj_key" ON "tbMedicos"("cnpj");
@@ -133,12 +170,6 @@ CREATE UNIQUE INDEX "tbMedicos_user_key" ON "tbMedicos"("user");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tbMedicos_idEndereco_key" ON "tbMedicos"("idEndereco");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tbMedicos_idPerfil_key" ON "tbMedicos"("idPerfil");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tbMedicos_idEspecialidade_key" ON "tbMedicos"("idEspecialidade");
 
 -- AddForeignKey
 ALTER TABLE "tbPacientes" ADD CONSTRAINT "tbPacientes_idEndereco_fkey" FOREIGN KEY ("idEndereco") REFERENCES "tbEnderecos"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -157,4 +188,16 @@ ALTER TABLE "tbMedicos" ADD CONSTRAINT "tbMedicos_idEspecialidade_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "tbMedicoDisponibilidade" ADD CONSTRAINT "tbMedicoDisponibilidade_idMedico_fkey" FOREIGN KEY ("idMedico") REFERENCES "tbMedicos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tbAgendamento" ADD CONSTRAINT "tbAgendamento_idPaciente_fkey" FOREIGN KEY ("idPaciente") REFERENCES "tbPacientes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tbAgendamento" ADD CONSTRAINT "tbAgendamento_idMedico_fkey" FOREIGN KEY ("idMedico") REFERENCES "tbMedicos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tbAgendamento" ADD CONSTRAINT "tbAgendamento_idStatusAgendamento_fkey" FOREIGN KEY ("idStatusAgendamento") REFERENCES "tbStatusAgendamento"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tbConsultas" ADD CONSTRAINT "tbConsultas_idAgendamento_fkey" FOREIGN KEY ("idAgendamento") REFERENCES "tbAgendamento"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
