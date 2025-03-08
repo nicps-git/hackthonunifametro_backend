@@ -16,6 +16,16 @@ export class GetMedicoByEspecialidadeDateDTO {
       sexo: 'M',
       createdAt: new Date('2024-03-12'),
       updatedAt: new Date('2024-03-12'),
+      disponibilidade: [
+        {
+          id: '539582ed-319a-426d-9363-d1631050d15a',
+          idMedico: 'ce511924-6652-4935-aa08-4e05eb036588',
+          diaSemana: 'SEG',
+          horario: '08:00',
+          createdAt: '2025-03-07T13:18:14.688Z',
+          updatedAt: '2025-03-07T13:18:14.688Z',
+        },
+      ],
     },
   })
   data: {
@@ -32,5 +42,13 @@ export class GetMedicoByEspecialidadeDateDTO {
     sexo: string;
     createdAt: Date;
     updatedAt: Date;
+    disponibilidade: {
+      id: string;
+      idMedico: string;
+      diaSemana: string;
+      horario: string;
+      createdAt: string;
+      updatedAt: string;
+    }[];
   };
 }

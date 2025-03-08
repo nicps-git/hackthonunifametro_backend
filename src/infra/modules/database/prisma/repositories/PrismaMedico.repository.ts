@@ -17,39 +17,34 @@ export class PrismaMedicoRepositories implements MedicoRepositories {
     weekDay: string,
   ): Promise<IMedicoResult[]> {
     try {
-      const result = await this.prismaService.medicoDisponibilidade.findMany({
+      const result = await this.prismaService.medicos.findMany({
         where: {
-          diaSemana: weekDay,
-          medicos: {
-            especialidade: {
-              id: idEspecialidade,
+          disponibilidade: {
+            some: {
+              diaSemana: weekDay,
             },
           },
+          idEspecialidade,
         },
-        include: {
-          medicos: {
-            include: { especialidade: true },
-          },
-        },
+        include: { especialidade: true },
       });
 
       return result.map((item) => {
         return {
-          id: item.medicos.id,
-          nome: item.medicos.nome,
-          sobrenome: item.medicos.sobrenome,
-          crm: item.medicos.crm,
-          email: item.medicos.email,
-          telefone: item.medicos.telefone,
-          cnpj: item.medicos.cnpj,
-          dataNascimento: item.medicos.dataNascimento,
-          especialidade:
-            item.medicos.especialidade?.nome ?? 'Sem especialidade',
+          id: item.id,
+          nome: item.nome,
+          sobrenome: item.sobrenome,
+          crm: item.crm,
+          email: item.email,
+          telefone: item.telefone,
+          cnpj: item.cnpj,
+          dataNascimento: item.dataNascimento,
+          especialidade: item.especialidade?.nome ?? 'Sem especialidade',
           descricaoEspecialidade:
-            item.medicos.especialidade?.descricao ?? 'Sem descrição',
-          sexo: item.medicos.sexo,
-          createdAt: item.medicos.createdAt,
-          updatedAt: item.medicos.updatedAt,
+            item.especialidade?.descricao ?? 'Sem descrição',
+          sexo: item.sexo,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
         };
       });
     } catch (error) {
@@ -122,13 +117,13 @@ export class PrismaMedicoRepositories implements MedicoRepositories {
         },
       });
 
-      if (medicoAgendamento.length > 0) {
-        throw new GetError({
-          title: 'Implementar',
-          message:
-            'Já existe agendamento para esta data, verificar horários disponíveis',
-        });
-      }
+      // if (medicoAgendamento.length > 0) {
+      //   throw new GetError({
+      //     title: 'Implementar',
+      //     message:
+      //       'Já existe agendamento para esta data, verificar horários disponíveis',
+      //   });
+      // }
 
       const weekDay = getWeekDay(agendamentoDate);
 
