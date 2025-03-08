@@ -7,6 +7,7 @@ import {
   TResultListAgendamentosPaciente,
 } from '@/application/repositories/agendamento.repository';
 import { TRealizarAgendamentoSchema } from '@/application/schemas/agendamento.schema';
+import { getWeekDay } from '@/application/utils';
 
 @Injectable()
 export class PrismaAgendamentoRepositories implements AgendamentoRepositories {
@@ -23,6 +24,26 @@ export class PrismaAgendamentoRepositories implements AgendamentoRepositories {
           horario: data.horario,
         },
       });
+
+      const weekDay = getWeekDay(data.data);
+
+      const medicoDisponibilidade =
+        await this.prismaService.medicoDisponibilidade.findMany({
+          where: {
+            idMedico: data.idMedico,
+          },
+        });
+
+      const medicoDisponibilidadeExists = medicoDisponibilidade.find(
+        (item) => item.diaSemana === weekDay,
+      );
+
+      if (!medicoDisponibilidadeExists) {
+        throw new GetError({
+          title: 'Ação negada',
+          message: 'Médico não possui disponibilidade para este dia!',
+        });
+      }
 
       if (agendamentoExists) {
         throw new GetError({
@@ -161,10 +182,14 @@ export class PrismaAgendamentoRepositories implements AgendamentoRepositories {
         });
       }
 
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      today.setHours(today.getHours() - 3);
+
       const result = await this.prismaService.agendamento.findMany({
         where: {
           idMedico,
-          data: new Date(),
+          data: today,
         },
         include: {
           paciente: true,
