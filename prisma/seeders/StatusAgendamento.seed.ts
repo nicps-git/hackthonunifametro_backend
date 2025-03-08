@@ -5,11 +5,6 @@ export const StatusAgendamentoSeed = async (
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
 ) => {
   const STATUSAGENDAMENTO = [
-    // {
-    //   id: '550e8400-e29b-41d4-a716-446655440000',
-    //   nome: 'Clínica Médica',
-    //   descricao: 'Atendimento geral adulto',
-    // },
     {
       id: '8694e5ab-44cd-47bf-9050-51b53ba7b816',
       nome: 'Agendado',

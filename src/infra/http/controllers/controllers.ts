@@ -1,4 +1,5 @@
 import { AccessControllers } from './access.controller';
+import { AgendamentoController } from './agendamento.controller';
 import { MedicoController } from './medico.controller';
 import { DisponibilidadeController } from './medicoDisponibilidade.controller';
 import { EspecialidadeController } from './medicoEspecialidade.controller';
@@ -10,4 +11,5 @@ export const Controllers = [
   EspecialidadeController,
   DisponibilidadeController,
   MedicoController,
+  AgendamentoController,
 ];
