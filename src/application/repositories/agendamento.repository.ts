@@ -23,6 +23,28 @@ export interface TResultListAgendamentosPaciente {
   }[];
 }
 
+export interface TResultListAgendamentosMedico {
+  id: string;
+  data: Date;
+  horario: string;
+  observacao: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+  paciente: {
+    nome: string;
+    sobrenome: string;
+    cpf: string;
+    dataNascimento: string;
+  };
+  consultas?: {
+    laudoMedico: string;
+    prescricaoMedica: string;
+    afastamento: Date | null;
+    retorno: Date | null;
+  }[];
+}
+
 export abstract class AgendamentoRepositories {
   abstract realizarAgendamento(
     data: TRealizarAgendamentoSchema,
@@ -36,4 +58,8 @@ export abstract class AgendamentoRepositories {
   abstract listarAgendamentosPaciente(
     idPaciente: string,
   ): Promise<TResultListAgendamentosPaciente[]>;
+
+  abstract listarAgendamentosMedico(
+    idMedico: string,
+  ): Promise<TResultListAgendamentosMedico[]>;
 }
