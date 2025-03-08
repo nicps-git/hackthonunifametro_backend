@@ -1,5 +1,4 @@
 import { IResultMedicoDisponibilidadeRepository } from './medicoDisponibilidade.repository';
-import { IMedicoRepository } from './user.repository';
 
 export interface IMedicoResult {
   id: string;
@@ -21,6 +20,15 @@ export interface ICompleteMedicoResult extends IMedicoResult {
   disponibilidade: IResultMedicoDisponibilidadeRepository[];
 }
 
+export interface IMedicoDisponibilidadeResult {
+  data: Date;
+  horarios: string[];
+}
+
+export interface ICompleteMedicoByEspecialidadeResult extends IMedicoResult {
+  disponibilidade: IMedicoDisponibilidadeResult[];
+}
+
 export abstract class MedicoRepositories {
   abstract getMedicoByEspecialidadeDate(
     idEspecialidade: string,
@@ -29,7 +37,7 @@ export abstract class MedicoRepositories {
 
   abstract getMedicoByEspecialidade(
     idEspecialidade: string,
-  ): Promise<IMedicoResult[]>;
+  ): Promise<ICompleteMedicoByEspecialidadeResult[]>;
 
   abstract getDisponibilidadeMedicoByDataAgendamento(
     idMedico: string,

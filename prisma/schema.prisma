@@ -27,7 +27,7 @@ model Pacientes {
   user            String   @unique @db.VarChar(11)
   password        String   @db.VarChar(255)
   idEndereco      String?  @unique @db.VarChar(36)
-  idPerfil        String   @unique @db.VarChar(36)
+  idPerfil        String   @db.VarChar(36)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
 
@@ -64,8 +64,8 @@ model Perfis {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  pacientes Pacientes?
-  medicos   Medicos?
+  pacientes Pacientes[]
+  medicos   Medicos[]
 
   @@map("tbPerfis")
 }
@@ -94,8 +94,8 @@ model Medicos {
   user            String   @unique @db.VarChar(11)
   password        String   @db.VarChar(255)
   idEndereco      String?  @unique @db.VarChar(36)
-  idPerfil        String   @unique @db.VarChar(36)
-  idEspecialidade String?  @unique @db.VarChar(36)
+  idPerfil        String   @db.VarChar(36)
+  idEspecialidade String?  @db.VarChar(36)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
 
