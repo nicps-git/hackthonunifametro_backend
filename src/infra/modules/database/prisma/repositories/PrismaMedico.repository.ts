@@ -243,4 +243,40 @@ export class PrismaMedicoRepositories implements MedicoRepositories {
       });
     }
   }
+
+  async listagemMedicos(): Promise<IMedicoResult[]> {
+    try {
+      const result = await this.prismaService.medicos.findMany({
+        include: { especialidade: true },
+      });
+
+      return result.map((item) => {
+        return {
+          id: item.id,
+          nome: item.nome,
+          sobrenome: item.sobrenome,
+          crm: item.crm,
+          email: item.email,
+          telefone: item.telefone,
+          cnpj: item.cnpj,
+          dataNascimento: item.dataNascimento,
+          especialidade: item.especialidade?.nome ?? 'Sem especialidade',
+          descricaoEspecialidade:
+            item.especialidade?.descricao ?? 'Sem descrição',
+          sexo: item.sexo,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        };
+      });
+    } catch (error) {
+      console.error(error);
+
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao buscar todos os médicos cadastrados no sistema',
+        error,
+        status: 500,
+      });
+    }
+  }
 }

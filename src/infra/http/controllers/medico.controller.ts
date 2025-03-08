@@ -17,6 +17,8 @@ import { GetDisponibilidadeMedicoByDataAgendamentoDTO } from '../dtos/medico/get
 import { GetDisponibilidadeMedicoByDataAgendamentoUseCase } from '@/application/useCases/medico/getDisponibilidadeMedicoByDataAgendamento.usecase';
 import { GetMedicoByEspecialidadeDTO } from '../dtos/medico/getMedicoByEspecialidade.dto';
 import { GetMedicoByEspecialidadeUseCase } from '@/application/useCases/medico/getMedicoByEspecialidade.usecase';
+import { ListagemMedicosDTO } from '../dtos/medico/listagemMedicos.dto';
+import { ListagemMedicosUseCase } from '@/application/useCases/medico/listagemMedicos.usecase';
 
 @ApiTags('Médico')
 @Controller('medico')
@@ -25,6 +27,7 @@ export class MedicoController {
     private getMedicoByEspecialidadeDateUseCase: GetMedicoByEspecialidadeDateUseCase,
     private getMedicoByEspecialidadeUseCase: GetMedicoByEspecialidadeUseCase,
     private getDisponibilidadeMedicoByDataAgendamentoUseCase: GetDisponibilidadeMedicoByDataAgendamentoUseCase,
+    private listagemMedicosUseCase: ListagemMedicosUseCase,
   ) {}
 
   @Get('byEspecialidadeDate')
@@ -106,6 +109,26 @@ export class MedicoController {
         title: 'ERRO INTERNO',
         message:
           'Erro ao buscar disponibilidade do médico por data do agendamento',
+        error,
+        status: 500,
+      });
+    }
+  }
+
+  @Get('all')
+  @Public()
+  @SwaggerGetDecorators(ListagemMedicosDTO)
+  async listagemMedicos() {
+    try {
+      const result = await this.listagemMedicosUseCase.execute();
+
+      return customView(result);
+    } catch (error) {
+      console.error(error);
+
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao buscar todos os médicos cadastrados no sistema',
         error,
         status: 500,
       });
