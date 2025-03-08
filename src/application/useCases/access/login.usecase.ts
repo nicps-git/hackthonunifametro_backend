@@ -29,7 +29,7 @@ export class LoginUseCase {
       (await this.hasherGateway.compare(request.password, result.password))
     ) {
       const token = await this.encrypterGateway.encrypt({
-        idPaciente: result.idPaciente,
+        idUser: result.idPaciente,
         user: result.user,
         perfil: result.perfil,
       });

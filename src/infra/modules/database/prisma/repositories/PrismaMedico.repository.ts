@@ -120,26 +120,30 @@ export class PrismaMedicoRepositories implements MedicoRepositories {
         },
       });
 
-      if (medicoAgendamento.length > 0) {
-        throw new GetError({
-          title: 'Implementar',
-          message:
-            'Já existe agendamento para esta data, verificar horários disponíveis',
-        });
-      }
-
       const weekDay = getWeekDay(agendamentoDate);
 
-      const result = await this.prismaService.medicoDisponibilidade.findMany({
-        where: {
-          idMedico,
-          diaSemana: weekDay,
-        },
-      });
+      const resultDoctorDiponibilidade =
+        await this.prismaService.medicoDisponibilidade.findMany({
+          where: {
+            idMedico,
+            diaSemana: weekDay,
+          },
+        });
 
-      return result;
+      if (medicoAgendamento.length > 0) {
+        const horariosDisponiveis = resultDoctorDiponibilidade.filter(
+          (item) =>
+            !medicoAgendamento.some(
+              (agendamento) => agendamento.horario === item.horario,
+            ),
+        );
+
+        return horariosDisponiveis;
+      }
+
+      return resultDoctorDiponibilidade;
     } catch (error) {
-      console.error(error);
+      // console.error(error);
 
       throw new GetError({
         title: 'ERRO INTERNO',
