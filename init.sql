@@ -157,9 +157,6 @@ CREATE UNIQUE INDEX "tbPacientes_user_key" ON "tbPacientes"("user");
 CREATE UNIQUE INDEX "tbPacientes_idEndereco_key" ON "tbPacientes"("idEndereco");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "tbPacientes_idPerfil_key" ON "tbPacientes"("idPerfil");
-
--- CreateIndex
 CREATE UNIQUE INDEX "tbMedicos_cnpj_key" ON "tbMedicos"("cnpj");
 
 -- CreateIndex
@@ -173,12 +170,6 @@ CREATE UNIQUE INDEX "tbMedicos_user_key" ON "tbMedicos"("user");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tbMedicos_idEndereco_key" ON "tbMedicos"("idEndereco");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tbMedicos_idPerfil_key" ON "tbMedicos"("idPerfil");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tbMedicos_idEspecialidade_key" ON "tbMedicos"("idEspecialidade");
 
 -- AddForeignKey
 ALTER TABLE "tbPacientes" ADD CONSTRAINT "tbPacientes_idEndereco_fkey" FOREIGN KEY ("idEndereco") REFERENCES "tbEnderecos"("id") ON DELETE SET NULL ON UPDATE CASCADE;
