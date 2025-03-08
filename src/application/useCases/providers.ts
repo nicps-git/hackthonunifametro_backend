@@ -1,5 +1,6 @@
 import { accessProvider } from './access/access.provider';
 import { agendamentoProvider } from './agendamento/agendamento.provider';
+import { consultaProvider } from './consulta/consulta.provider';
 import { medicoProvider } from './medico/medico.provider';
 import { medicoDisponibilidadeProvider } from './medicoDisponibilidade/medicoDisponibilidade.provider';
 import { medicoEspecialidadeProvider } from './medicoEspecialidade/medicoEspecialidade.provider';
@@ -12,4 +13,5 @@ export const Providers = [
   ...medicoDisponibilidadeProvider,
   ...medicoProvider,
   ...agendamentoProvider,
+  ...consultaProvider,
 ];

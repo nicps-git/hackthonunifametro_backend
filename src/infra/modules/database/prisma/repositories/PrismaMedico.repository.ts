@@ -114,16 +114,19 @@ export class PrismaMedicoRepositories implements MedicoRepositories {
         where: {
           idMedico,
           data: agendamentoDate,
+          StatusAgendamento: {
+            nome: 'Agendado',
+          },
         },
       });
 
-      // if (medicoAgendamento.length > 0) {
-      //   throw new GetError({
-      //     title: 'Implementar',
-      //     message:
-      //       'Já existe agendamento para esta data, verificar horários disponíveis',
-      //   });
-      // }
+      if (medicoAgendamento.length > 0) {
+        throw new GetError({
+          title: 'Implementar',
+          message:
+            'Já existe agendamento para esta data, verificar horários disponíveis',
+        });
+      }
 
       const weekDay = getWeekDay(agendamentoDate);
 
