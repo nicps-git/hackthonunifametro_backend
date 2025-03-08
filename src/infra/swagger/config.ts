@@ -6,6 +6,7 @@ export const Swagger = (app: INestApplication) => {
     .setTitle('API - Uni Clin')
     .setDescription('Documentation of the Uni Clin API routes')
     .setVersion('1.0')
+    .addTag('Agendamento')
     .addTag('Disponibilidade')
     .addTag('Especialidade')
     .addTag('Login')
