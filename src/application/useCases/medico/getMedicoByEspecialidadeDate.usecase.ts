@@ -1,5 +1,6 @@
 import { GetError } from '@/application/errors';
 import {
+  ICompleteMedicoResult,
   IMedicoResult,
   MedicoRepositories,
 } from '@/application/repositories/medico.repository';
@@ -13,7 +14,7 @@ export class GetMedicoByEspecialidadeDateUseCase {
   async execute(
     idEspecialidade: string,
     dataAgendamento: Date,
-  ): Promise<IMedicoResult[]> {
+  ): Promise<ICompleteMedicoResult[]> {
     const agendamentoDate = new Date(dataAgendamento);
 
     const today = new Date();
@@ -35,10 +36,26 @@ export class GetMedicoByEspecialidadeDateUseCase {
 
     const weekDay = getWeekDay(agendamentoDate);
 
-    const result = await this.medicoRepositories.getMedicoByEspecialidadeDate(
-      idEspecialidade,
-      weekDay,
-    );
+    const resultDoctor =
+      await this.medicoRepositories.getMedicoByEspecialidadeDate(
+        idEspecialidade,
+        weekDay,
+      );
+
+    const result: ICompleteMedicoResult[] = [];
+
+    for (const doctor of resultDoctor) {
+      const dataDisponibilidade =
+        await this.medicoRepositories.getDisponibilidadeMedicoByDataAgendamento(
+          doctor.id,
+          agendamentoDate,
+        );
+
+      result.push({
+        ...doctor,
+        disponibilidade: dataDisponibilidade,
+      });
+    }
 
     return result;
   }

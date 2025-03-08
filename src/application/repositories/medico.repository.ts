@@ -17,6 +17,10 @@ export interface IMedicoResult {
   updatedAt: Date;
 }
 
+export interface ICompleteMedicoResult extends IMedicoResult {
+  disponibilidade: IResultMedicoDisponibilidadeRepository[];
+}
+
 export abstract class MedicoRepositories {
   abstract getMedicoByEspecialidadeDate(
     idEspecialidade: string,
