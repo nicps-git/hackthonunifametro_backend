@@ -4,6 +4,7 @@ export interface IAccessRepository {
   user: string;
   password: string;
   perfil: string;
+  idPaciente: string;
 }
 
 export interface IResultResetPassword {

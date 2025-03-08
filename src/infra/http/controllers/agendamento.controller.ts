@@ -1,24 +1,42 @@
 import { ZodValidationPipe } from '@/infra/pipes/zodValidation.pipe';
-import { Body, Controller, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UsePipes } from '@nestjs/common';
 import { customView } from '../responseView/default.view';
 import { GetError } from '@/application/errors';
 import { ApiTags } from '@nestjs/swagger';
-import { SwaggerDecorators } from '../decorators/swagger.decorator';
+import {
+  SwaggerDecorators,
+  SwaggerGetDecorators,
+} from '../decorators/swagger.decorator';
 import { Public } from '@/infra/modules/access/guards/isPublic';
 import { RealizarAgendamentoUseCase } from '@/application/useCases/agendamento/realizarAgendamento.usecase';
-import { realizarAgendamentoSchema } from '@/application/schemas/agendamento.schema';
+import {
+  cancelarAgendamentoSchema,
+  realizarAgendamentoSchema,
+} from '@/application/schemas/agendamento.schema';
 import { RealizarAgendamentoDTO } from '../dtos/agendamento/realizarAgendamento.dto';
+import { CancelarAgendamentoUseCase } from '@/application/useCases/agendamento/cancelarAgendamento.usecase';
+import { CancelarAgendamentoDTO } from '../dtos/agendamento/cancelarAgendamento.dto';
+import { ListarAgendamentosPacienteDTO } from '../dtos/agendamento/listarAgendamentosPaciente.dto';
+import {
+  idParamsSchema,
+  TIdParamsSchema,
+} from '@/application/schemas/default.schemas';
+import { ListarAgendamentosPacienteUseCase } from '@/application/useCases/agendamento/listarAgendamentosPaciente.usecase';
 
 @ApiTags('Agendamento')
 @Controller('agendamento')
 export class AgendamentoController {
-  constructor(private realizarAgendamentoUseCase: RealizarAgendamentoUseCase) {}
+  constructor(
+    private realizarAgendamentoUseCase: RealizarAgendamentoUseCase,
+    private cancelarAgendamentoUseCase: CancelarAgendamentoUseCase,
+    private listarAgendamentosPacienteUseCase: ListarAgendamentosPacienteUseCase,
+  ) {}
 
   @Post()
   @Public()
   @UsePipes(new ZodValidationPipe(realizarAgendamentoSchema))
   @SwaggerDecorators(RealizarAgendamentoDTO)
-  async createMedicoEspecialidade(@Body() body: RealizarAgendamentoDTO) {
+  async realizarAgendamento(@Body() body: RealizarAgendamentoDTO) {
     try {
       const result = await this.realizarAgendamentoUseCase.execute(body);
 
@@ -27,6 +45,50 @@ export class AgendamentoController {
       throw new GetError({
         title: 'ERRO INTERNO',
         message: 'Erro ao realizar agendamento do paciente!',
+        error,
+        status: 500,
+      });
+    }
+  }
+
+  @Post('cancelar')
+  @Public()
+  @UsePipes(new ZodValidationPipe(cancelarAgendamentoSchema))
+  @SwaggerDecorators(CancelarAgendamentoDTO)
+  async cancelarAgendamento(@Body() body: CancelarAgendamentoDTO) {
+    try {
+      const result = await this.cancelarAgendamentoUseCase.execute(
+        body.idAgendamento,
+        body.observacao,
+      );
+
+      return customView(result);
+    } catch (error) {
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao realizar agendamento do paciente!',
+        error,
+        status: 500,
+      });
+    }
+  }
+
+  @Get('paciente')
+  @Public()
+  @SwaggerGetDecorators(ListarAgendamentosPacienteDTO)
+  async listarAgendamentosPaciente(
+    @Query('idPaciente', new ZodValidationPipe(idParamsSchema))
+    idPaciente: TIdParamsSchema,
+  ) {
+    try {
+      const result =
+        await this.listarAgendamentosPacienteUseCase.execute(idPaciente);
+
+      return customView(result);
+    } catch (error) {
+      throw new GetError({
+        title: 'ERRO INTERNO',
+        message: 'Erro ao listar as disponibilidades do médico!',
         error,
         status: 500,
       });

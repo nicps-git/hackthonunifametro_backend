@@ -24,3 +24,12 @@ export const realizarAgendamentoSchema = z.object({
 export type TRealizarAgendamentoSchema = z.infer<
   typeof realizarAgendamentoSchema
 >;
+
+export const cancelarAgendamentoSchema = z.object({
+  idAgendamento: validateUuid,
+  observacao: validateString,
+});
+
+export type TCancelarAgendamentoSchema = z.infer<
+  typeof cancelarAgendamentoSchema
+>;

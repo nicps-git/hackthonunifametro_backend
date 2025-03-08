@@ -37,6 +37,7 @@ export class PrismaAccessRepositories implements AccessRepositories {
           user: dataUser.user,
           password: dataUser.password,
           perfil: dataUser.perfil.nome,
+          idPaciente: dataUser.id,
         };
       }
 
